@@ -1,0 +1,49 @@
+name: release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  gh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - run: npx changelogithub
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Build
+        run: |
+          npm i -g @antfu/ni
+          nci
+          nr build
+
+      - uses: JS-DevTools/npm-publish@v2
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          access: public
+          ignore-scripts: false

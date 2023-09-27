@@ -1,0 +1,36 @@
+{
+  "name": "@zhmushan/starter-ts",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@8.8.0",
+  "scripts": {
+    "fmt": "dprint fmt",
+    "fmt:check": "dprint check",
+    "test": "vitest",
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "start": "esno src/index.ts"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.7.0",
+    "dprint": "^0.41.0",
+    "esno": "^0.17.0",
+    "typescript": "^5.2.2",
+    "unbuild": "^2.0.0",
+    "vitest": "^0.34.5"
+  }
+}
